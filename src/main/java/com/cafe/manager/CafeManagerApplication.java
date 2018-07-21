@@ -15,12 +15,4 @@ public class CafeManagerApplication {
         SpringApplication.run(CafeManagerApplication.class, args);
     }
 
-    @Bean
-    public InternalResourceViewResolver jspViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/pages/");
-        resolver.setSuffix(".jsp");
-        return resolver;
-    }
-
 }
