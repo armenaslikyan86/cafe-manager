@@ -2,12 +2,14 @@ package com.cafe.manager.service.impl;
 
 import com.cafe.manager.domain.Order;
 import com.cafe.manager.repository.OrderRepository;
-import com.cafe.manager.repository.TableRepository;
 import com.cafe.manager.service.OrderService;
+import com.cafe.manager.service.TableService;
+import com.cafe.manager.service.exception.ResourceDoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -16,20 +18,21 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
-    private TableRepository tableRepository;
+    private TableService tableService;
 
     @Override
+    @Transactional
     public Order getOrderById(Long id) {
-        return orderRepository.findOne(id);
+        return orderRepository.findById(id).orElseThrow(() -> new ResourceDoesNotExistException("Order does not exist"));
     }
 
     @Override
-    public Order register(Order order) {
+    public Order modify(Order order) {
         return orderRepository.save(order);
     }
 
     @Override
-    public List<Order> getOrdersByTableId(Long id) {
-        return (List<Order>) tableRepository.findOne(id).getOrders();
+    public Set<Order> getOrdersByTableId(Long tableId) {
+        return tableService.getTableById(tableId).getOrders();
     }
 }

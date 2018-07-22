@@ -1,8 +1,5 @@
 package com.cafe.manager.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,14 +9,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "product")
-@Getter
-@Setter
-@NoArgsConstructor
 public class Product {
 
     @Id
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence", allocationSize = 1)
-    @GeneratedValue(generator = "user_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "product_generator", sequenceName = "product_sequence")
+    @GeneratedValue(generator = "product_generator", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "name")
@@ -28,9 +22,32 @@ public class Product {
     @Column(name = "price")
     private String price;
 
+    public Product() {
+    }
 
-    @OneToOne(mappedBy = "product", fetch = FetchType.EAGER)
-    private ProductInOrder productInOrder;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(final String price) {
+        this.price = price;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,7 +61,6 @@ public class Product {
                 .append(id, product.id)
                 .append(name, product.name)
                 .append(price, product.price)
-                .append(productInOrder, product.productInOrder)
                 .isEquals();
     }
 
@@ -54,7 +70,6 @@ public class Product {
                 .append(id)
                 .append(name)
                 .append(price)
-                .append(productInOrder)
                 .toHashCode();
     }
 
@@ -65,7 +80,6 @@ public class Product {
                 .append("id", id)
                 .append("name", name)
                 .append("price", price)
-                .append("productInOrder", productInOrder)
                 .toString();
     }
 }

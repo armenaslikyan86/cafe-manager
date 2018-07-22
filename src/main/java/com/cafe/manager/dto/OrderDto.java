@@ -1,10 +1,9 @@
 package com.cafe.manager.dto;
 
-import com.cafe.manager.domain.ProductInOrder;
-import com.cafe.manager.domain.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.Set;
 
 public class OrderDto {
@@ -13,20 +12,16 @@ public class OrderDto {
 
     private String description;
 
-    private com.cafe.manager.domain.Table table;
-
-    private Set<ProductInOrder> productInOrders;
+    private Set<ProductInOrderDto> productInOrders;
 
     public OrderDto() {
-
     }
 
     public Long getId() {
-
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -34,23 +29,15 @@ public class OrderDto {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
-    public Table getTable() {
-        return table;
-    }
-
-    public void setTable(Table table) {
-        this.table = table;
-    }
-
-    public Set<ProductInOrder> getProductInOrders() {
+    public Set<ProductInOrderDto> getProductInOrders() {
         return productInOrders;
     }
 
-    public void setProductInOrders(Set<ProductInOrder> productInOrders) {
+    public void setProductInOrders(final Set<ProductInOrderDto> productInOrders) {
         this.productInOrders = productInOrders;
     }
 
@@ -65,7 +52,6 @@ public class OrderDto {
         return new EqualsBuilder()
                 .append(id, orderDto.id)
                 .append(description, orderDto.description)
-                .append(table, orderDto.table)
                 .append(productInOrders, orderDto.productInOrders)
                 .isEquals();
     }
@@ -75,7 +61,6 @@ public class OrderDto {
         return new HashCodeBuilder(17, 37)
                 .append(id)
                 .append(description)
-                .append(table)
                 .append(productInOrders)
                 .toHashCode();
     }
@@ -85,7 +70,6 @@ public class OrderDto {
         return new ToStringBuilder(this)
                 .append("id", id)
                 .append("description", description)
-                .append("table", table)
                 .append("productInOrders", productInOrders)
                 .toString();
     }

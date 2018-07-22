@@ -1,25 +1,20 @@
 package com.cafe.manager.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@javax.persistence.Table(name = "table")
-@Getter
-@Setter
-@NoArgsConstructor
-public class Table {
+@javax.persistence.Table(name = "`table`")
+public class Table implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence", allocationSize = 1)
-    @GeneratedValue(generator = "user_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "table_generator", sequenceName = "table_sequence")
+    @GeneratedValue(generator = "table_generator", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "name")
@@ -28,13 +23,55 @@ public class Table {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "table")
+    @OneToMany(mappedBy = "table")
     private Set<Order> orders;
 
+    public Table() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(final Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(final Set<Order> orders) {
+        this.orders = orders;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,23 +81,21 @@ public class Table {
 
         Table table = (Table) o;
 
-        return new org.apache.commons.lang3.builder.EqualsBuilder()
+        return new EqualsBuilder()
                 .append(id, table.id)
                 .append(name, table.name)
                 .append(capacity, table.capacity)
                 .append(user, table.user)
-                .append(orders, table.orders)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37)
+        return new HashCodeBuilder(17, 37)
                 .append(id)
                 .append(name)
                 .append(capacity)
                 .append(user)
-                .append(orders)
                 .toHashCode();
     }
 
@@ -71,7 +106,6 @@ public class Table {
                 .append("name", name)
                 .append("capacity", capacity)
                 .append("user", user)
-                .append("orders", orders)
                 .toString();
     }
 }

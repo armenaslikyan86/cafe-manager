@@ -1,7 +1,6 @@
 package com.cafe.manager.dto;
 
 import com.cafe.manager.common.RoleType;
-import com.cafe.manager.domain.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,10 +18,9 @@ public class UserDto {
 
     private RoleType roleType;
 
-    private Table table;
+    private TableDto table;
 
     public UserDto() {
-
     }
 
     public Long getId() {
@@ -65,11 +63,11 @@ public class UserDto {
         this.roleType = roleType;
     }
 
-    public Table getTable() {
+    public TableDto getTable() {
         return table;
     }
 
-    public void setTable(Table table) {
+    public void setTable(TableDto table) {
         this.table = table;
     }
 

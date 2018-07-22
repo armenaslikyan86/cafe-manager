@@ -1,30 +1,23 @@
 package com.cafe.manager.domain;
 
 import com.cafe.manager.common.RoleType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.persistence.Table;
 import java.util.Collection;
 
 @Entity
-@Table(name = "`user`")
-@Getter
-@Setter
-@NoArgsConstructor
+@javax.persistence.Table(name = "`user`")
 public class User implements UserDetails {
 
-    private static final long serialVersionUID = -8632813353208855706L;
-
     @Id
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence")
     @GeneratedValue(generator = "user_generator", strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -45,21 +38,80 @@ public class User implements UserDetails {
     private RoleType roleType;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
-    private com.cafe.manager.domain.Table table;
+    private Table table;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public User() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(final String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(final RoleType roleType) {
+        this.roleType = roleType;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(final Table table) {
+        this.table = table;
     }
 
     @Override
-    public String getPassword() {
-        return passwordHash;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Lists.newArrayList(new SimpleGrantedAuthority("ROLE_" + roleType.name()));
     }
 
     @Override
     public String getUsername() {
         return getEmail();
+    }
+
+    @Override
+    public String getPassword() {
+        return getPasswordHash();
     }
 
     @Override

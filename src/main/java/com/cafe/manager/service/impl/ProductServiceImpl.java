@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return productRepository.findOne(id);
+        return productRepository.findById(id).get();
     }
 
     @Override
@@ -35,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findByProductInOrderId(Long id) {
-        return productInOrderRepository.findOne(id).getProduct();
+//        return productInOrderRepository.findById(id).get().getProduct();
+        return null;
     }
 }

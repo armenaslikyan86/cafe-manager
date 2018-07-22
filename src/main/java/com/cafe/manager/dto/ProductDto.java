@@ -1,6 +1,5 @@
 package com.cafe.manager.dto;
 
-import com.cafe.manager.domain.ProductInOrder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,17 +12,11 @@ public class ProductDto {
 
     private String price;
 
-    private ProductInOrder productInOrder;
-
-    public ProductDto() {
-
-    }
-
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -31,7 +24,7 @@ public class ProductDto {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -39,16 +32,8 @@ public class ProductDto {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(final String price) {
         this.price = price;
-    }
-
-    public ProductInOrder getProductInOrder() {
-        return productInOrder;
-    }
-
-    public void setProductInOrder(ProductInOrder productInOrder) {
-        this.productInOrder = productInOrder;
     }
 
     @Override
@@ -63,7 +48,6 @@ public class ProductDto {
                 .append(id, that.id)
                 .append(name, that.name)
                 .append(price, that.price)
-                .append(productInOrder, that.productInOrder)
                 .isEquals();
     }
 
@@ -73,7 +57,6 @@ public class ProductDto {
                 .append(id)
                 .append(name)
                 .append(price)
-                .append(productInOrder)
                 .toHashCode();
     }
 
@@ -83,7 +66,6 @@ public class ProductDto {
                 .append("id", id)
                 .append("name", name)
                 .append("price", price)
-                .append("productInOrder", productInOrder)
                 .toString();
     }
 }

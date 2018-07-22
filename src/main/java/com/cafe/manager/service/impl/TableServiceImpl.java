@@ -4,20 +4,21 @@ import com.cafe.manager.domain.Table;
 import com.cafe.manager.domain.User;
 import com.cafe.manager.repository.TableRepository;
 import com.cafe.manager.service.TableService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
-public class TableServiceImpl implements TableService
-{
+public class TableServiceImpl implements TableService {
 
     @Autowired
     private TableRepository tableRepository;
 
     @Override
     public Table getTableById(Long id) {
-        return tableRepository.findOne(id);
+        return tableRepository.findById(id).get();
     }
 
     @Override
@@ -27,11 +28,11 @@ public class TableServiceImpl implements TableService
 
     @Override
     public List<Table> findAll() {
-        return (List<Table>) tableRepository.findAll();
+        return Lists.newArrayList(tableRepository.findAll());
     }
 
     @Override
     public User findAssignedWaiter(Long id) {
-        return tableRepository.findOne(id).getUser();
+        return tableRepository.findById(id).get().getUser();
     }
 }

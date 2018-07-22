@@ -33,8 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.httpBasic().and().authorizeRequests()
                 .antMatchers("**/users/**").authenticated()
-                .antMatchers("**/manager/**").hasAuthority("MANAGER")
-                .antMatchers("**/users/register").permitAll()
+                .antMatchers("**/manager/**").hasAuthority("ADMIN")
+                .antMatchers("**/users/modify").permitAll()
                 .and()
                 .formLogin().  //login configuration
                 loginPage("/login").

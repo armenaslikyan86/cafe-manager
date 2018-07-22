@@ -1,15 +1,17 @@
 package com.cafe.manager.service.impl;
 
 import com.cafe.manager.domain.User;
-import com.cafe.manager.dto.UserDto;
 import com.cafe.manager.repository.UserRepository;
 import com.cafe.manager.service.UserService;
 import com.cafe.manager.service.exception.EmailExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
 import java.util.Optional;
 
-
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -18,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findOne(id);
+        return userRepository.findById(id).get();
     }
 
     @Override
@@ -30,34 +32,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(UserDto creationRequest) throws EmailExistException {
-        if(emailExist(creationRequest.getEmail())) {
-            throw new EmailExistException("Email already exists");
+    public User register(User creationUser) throws EmailExistException {
+        if (emailExist(creationUser.getEmail())) {
+            throw new EmailExistException();
         }
         final User user = new User();
-        user.setFirstName(creationRequest.getFirstName());
-        user.setLastName(creationRequest.getLastName());
-        user.setEmail(creationRequest.getEmail());
-        user.setRoleType(creationRequest.getRoleType());
+        user.setFirstName(creationUser.getFirstName());
+        user.setLastName(creationUser.getLastName());
+        user.setEmail(creationUser.getEmail());
+        user.setRoleType(creationUser.getRoleType());
+        return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User modify(final User user) {
         return userRepository.save(user);
     }
 
     private boolean emailExist(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            return true;
-        }
-        return false;
-    }
-
-    public User convertToUser(UserDto userDto) {
-        final User user = new User();
-        user.setId(userDto.getId());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setRoleType(userDto.getRoleType());
-        user.setTable(userDto.getTable());
-        return user;
+        return userRepository.findByEmail(email).isPresent();
     }
 }

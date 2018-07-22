@@ -1,10 +1,9 @@
 package com.cafe.manager.dto;
 
-import com.cafe.manager.domain.Order;
-import com.cafe.manager.domain.User;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.Set;
 
 public class TableDto {
@@ -15,19 +14,16 @@ public class TableDto {
 
     private Integer capacity;
 
-    private User user;
-
-    private Set<Order> orders;
+    private Set<OrderDto> orders;
 
     public TableDto() {
-
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -35,7 +31,7 @@ public class TableDto {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -43,23 +39,15 @@ public class TableDto {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(final Integer capacity) {
         this.capacity = capacity;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<Order> getOrders() {
+    public Set<OrderDto> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(final Set<OrderDto> orders) {
         this.orders = orders;
     }
 
@@ -75,7 +63,6 @@ public class TableDto {
                 .append(id, tableDto.id)
                 .append(name, tableDto.name)
                 .append(capacity, tableDto.capacity)
-                .append(user, tableDto.user)
                 .append(orders, tableDto.orders)
                 .isEquals();
     }
@@ -86,7 +73,6 @@ public class TableDto {
                 .append(id)
                 .append(name)
                 .append(capacity)
-                .append(user)
                 .append(orders)
                 .toHashCode();
     }
@@ -97,7 +83,6 @@ public class TableDto {
                 .append("id", id)
                 .append("name", name)
                 .append("capacity", capacity)
-                .append("user", user)
                 .append("orders", orders)
                 .toString();
     }

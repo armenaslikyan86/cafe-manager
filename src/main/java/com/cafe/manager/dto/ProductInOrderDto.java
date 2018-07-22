@@ -1,7 +1,5 @@
 package com.cafe.manager.dto;
 
-import com.cafe.manager.domain.Order;
-import com.cafe.manager.domain.Product;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -11,36 +9,45 @@ public class ProductInOrderDto {
 
     private Long id;
 
-    private Order order;
+    private Double account;
 
-    private Product product;
+    private ProductDto product;
+
+    private Long amount;
 
     public ProductInOrderDto() {
-
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public Order getOrder() {
-        return order;
+    public Double getAccount() {
+        return account;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setAccount(final Double account) {
+        this.account = account;
     }
 
-    public Product getProduct() {
+    public ProductDto getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(final ProductDto product) {
         this.product = product;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(final Long amount) {
+        this.amount = amount;
     }
 
     @Override
@@ -53,7 +60,6 @@ public class ProductInOrderDto {
 
         return new EqualsBuilder()
                 .append(id, that.id)
-                .append(order, that.order)
                 .append(product, that.product)
                 .isEquals();
     }
@@ -62,7 +68,6 @@ public class ProductInOrderDto {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
-                .append(order)
                 .append(product)
                 .toHashCode();
     }
@@ -71,7 +76,6 @@ public class ProductInOrderDto {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
-                .append("order", order)
                 .append("product", product)
                 .toString();
     }

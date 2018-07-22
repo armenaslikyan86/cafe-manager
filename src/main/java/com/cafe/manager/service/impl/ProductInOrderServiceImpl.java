@@ -5,9 +5,12 @@ import com.cafe.manager.repository.OrderRepository;
 import com.cafe.manager.repository.ProductInOrderRepository;
 import com.cafe.manager.service.ProductInOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
+@Service
 public class ProductInOrderServiceImpl implements ProductInOrderService {
 
     @Autowired
@@ -18,7 +21,7 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
 
     @Override
     public ProductInOrder findById(Long id) {
-        return productInOrderRepository.findOne(id);
+        return productInOrderRepository.findById(id).get();
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
     }
 
     @Override
-    public List<ProductInOrder> findByOrderId(Long id) {
-        return (List<ProductInOrder>) orderRepository.findOne(id).getProductInOrders();
+    public Set<ProductInOrder> findByOrderId(Long id) {
+        return orderRepository.findById(id).get().getProductInOrders();
     }
 }
