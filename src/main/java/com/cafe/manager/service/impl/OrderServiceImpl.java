@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order getOrderById(Long id) {
+    public Order getById(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> new ResourceDoesNotExistException("Order does not exist"));
     }
 
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Set<Order> getOrdersByTableId(Long tableId) {
-        return tableService.getTableById(tableId).getOrders();
+    public Set<Order> getAllByTableId(Long tableId) {
+        return tableService.getById(tableId).getOrders();
     }
 }

@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.httpBasic().and().authorizeRequests()
                 .antMatchers("**/users/**").authenticated()
-                .antMatchers("**/manager/**").hasAuthority("ADMIN")
+                .antMatchers("**/manager/**").hasAuthority("MANAGER")
                 .antMatchers("**/users/modify").permitAll()
                 .and()
                 .formLogin().  //login configuration

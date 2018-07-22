@@ -7,8 +7,9 @@ import java.util.Set;
 
 public interface ProductInOrderService {
     ProductInOrder findById(Long id);
-    ProductInOrder register(ProductInOrder productInOrder);
+
+    ProductInOrder modify(ProductInOrder productInOrder);
     List<ProductInOrder> findAll();
 
-    Set<ProductInOrder> findByOrderId(Long id);
+    Set<ProductInOrder> findByOrderId(Long orderId);
 }

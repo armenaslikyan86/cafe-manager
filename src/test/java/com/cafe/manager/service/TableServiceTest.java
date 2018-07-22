@@ -2,7 +2,7 @@ package com.cafe.manager.service;
 
 import org.junit.Test;
 
-public class TableServiceIntegrationTest extends CommonIntegrationTestResource {
+public class TableServiceTest extends CommonTestResource {
 
     @Test
     public void getTableById() {

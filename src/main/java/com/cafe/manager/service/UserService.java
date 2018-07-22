@@ -3,8 +3,9 @@ package com.cafe.manager.service;
 import com.cafe.manager.domain.User;
 
 public interface UserService {
-    User getUserById(Long id);
-    User getUserByEmail(String email);
+    User getById(Long id);
+
+    User getByEmail(String email);
 
     User register(User creationRequest);
 

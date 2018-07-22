@@ -17,13 +17,13 @@ public class TableServiceImpl implements TableService {
     private TableRepository tableRepository;
 
     @Override
-    public Table getTableById(Long id) {
+    public Table getById(Long id) {
         return tableRepository.findById(id).get();
     }
 
     @Override
-    public Table register(Table createRequest) {
-        return tableRepository.save(createRequest);
+    public Table modify(Table table) {
+        return tableRepository.save(table);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public User findAssignedWaiter(Long id) {
-        return tableRepository.findById(id).get().getUser();
+    public User findAssignedWaiter(Long tableId) {
+        return tableRepository.findById(tableId).get().getUser();
     }
 }

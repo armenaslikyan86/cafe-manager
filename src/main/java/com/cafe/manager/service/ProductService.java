@@ -7,9 +7,9 @@ import java.util.List;
 public interface ProductService {
     Product findById(Long id);
 
-    Product register(Product product);
+    Product modify(Product product);
 
     List<Product> findAll();
 
-    Product findByProductInOrderId(Long id);
+    Product findByProductInOrderId(Long productInOrderId);
 }

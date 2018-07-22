@@ -19,12 +19,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User getUserById(Long id) {
+    public User getById(Long id) {
         return userRepository.findById(id).get();
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public User getByEmail(String email) {
         Assert.hasText(email, "email cannot be empty");
 
         final Optional<User> userOptional = userRepository.findByEmail(email);

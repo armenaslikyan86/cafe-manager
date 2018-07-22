@@ -3,6 +3,8 @@ package com.cafe.manager.service;
 import com.cafe.manager.common.RoleType;
 import com.cafe.manager.domain.*;
 import com.cafe.manager.repository.ProductInOrderRepository;
+import com.cafe.manager.repository.TableRepository;
+import com.cafe.manager.repository.UserRepository;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -19,7 +21,7 @@ import javax.persistence.EntityManager;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Transactional
-public class CommonIntegrationTestResource {
+public class CommonTestResource {
 
     @Autowired
     private EntityManager entityManager;
@@ -27,8 +29,32 @@ public class CommonIntegrationTestResource {
     @Autowired
     private ProductInOrderRepository productInOrderRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TableRepository tableRepository;
+
     @Before
     public void initDatabase() {
+
+        final User armen = new User();
+        armen.setId(10L);
+        armen.setEmail("armenaslikyan@gmail.com");
+        armen.setFirstName("Armen");
+        armen.setLastName("Aslikyan");
+        armen.setPasswordHash(BCrypt.hashpw("armen", BCrypt.gensalt(12)));
+        armen.setRoleType(RoleType.WAITER);
+
+        userRepository.save(armen);
+
+        final Table roundTable = new Table();
+        roundTable.setId(20L);
+        roundTable.setName("Round table");
+        roundTable.setCapacity(10);
+
+        tableRepository.save(roundTable);
+
         final User user = new User();
         user.setId(1L);
         user.setEmail("email");
