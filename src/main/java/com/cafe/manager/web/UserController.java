@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -68,15 +68,9 @@ public class UserController {
         return ResponseEntity.ok(productDto);
     }
 
-    @PostMapping(value = "/waiter/{waiterId}/assignTable/{tableId}")
-    public void assignTableToWaiter(@PathVariable("waiterId") Optional<Long> waiterId, @PathVariable("tableId") Optional<Long> tableId) {
-        if (waiterId.isPresent() && tableId.isPresent()) {
-            final User user = userService.getById(waiterId.get());
-            final Table table = tableService.getById(tableId.get());
-            user.setTable(table);
-            userService.modify(user);
-        }
-        return;
+    @PostMapping(value = "/users/{userId}/tables/{tableId}/assignTable")
+    public void assignTableToWaiter(@NotEmpty @PathVariable("userId") Long userId, @PathVariable("tableId") Long tableId) {
+        userService.assignTableToUser(userId, tableId);
     }
 
 }

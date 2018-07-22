@@ -38,22 +38,7 @@ public class CommonTestResource {
     @Before
     public void initDatabase() {
 
-        final User armen = new User();
-        armen.setId(10L);
-        armen.setEmail("armenaslikyan@gmail.com");
-        armen.setFirstName("Armen");
-        armen.setLastName("Aslikyan");
-        armen.setPasswordHash(BCrypt.hashpw("armen", BCrypt.gensalt(12)));
-        armen.setRoleType(RoleType.WAITER);
 
-        userRepository.save(armen);
-
-        final Table roundTable = new Table();
-        roundTable.setId(20L);
-        roundTable.setName("Round table");
-        roundTable.setCapacity(10);
-
-        tableRepository.save(roundTable);
 
         final User user = new User();
         user.setId(1L);

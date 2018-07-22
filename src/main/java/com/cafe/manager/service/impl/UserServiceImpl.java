@@ -1,9 +1,12 @@
 package com.cafe.manager.service.impl;
 
+import com.cafe.manager.domain.Table;
 import com.cafe.manager.domain.User;
 import com.cafe.manager.repository.UserRepository;
+import com.cafe.manager.service.TableService;
 import com.cafe.manager.service.UserService;
 import com.cafe.manager.service.exception.EmailExistException;
+import com.cafe.manager.service.exception.ResourceDoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +20,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TableService tableService;
+
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(() -> new ResourceDoesNotExistException("User is not found"));
     }
 
     @Override
@@ -28,7 +34,7 @@ public class UserServiceImpl implements UserService {
         Assert.hasText(email, "email cannot be empty");
 
         final Optional<User> userOptional = userRepository.findByEmail(email);
-        return userOptional.orElseThrow(() -> new IllegalStateException("User is not found"));
+        return userOptional.orElseThrow(() -> new ResourceDoesNotExistException("User is not found"));
     }
 
     @Override
@@ -48,6 +54,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User modify(final User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void assignTableToUser(Long userId, Long tableId) {
+        User user = getById(userId);
+
+        Table table = tableService.getById(tableId);
+
+        table.setUser(user);
+
+        tableService.modify(table);
     }
 
     private boolean emailExist(String email) {

@@ -11,4 +11,6 @@ public interface UserService {
 
     User modify(User user);
 
+
+    void assignTableToUser(Long userId, Long tableId);
 }

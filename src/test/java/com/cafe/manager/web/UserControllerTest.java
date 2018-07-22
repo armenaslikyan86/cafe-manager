@@ -1,22 +1,36 @@
 package com.cafe.manager.web;
 
 import com.cafe.manager.common.RoleType;
+import com.cafe.manager.domain.Table;
+import com.cafe.manager.domain.User;
 import com.cafe.manager.dto.ProductDto;
 import com.cafe.manager.dto.TableDto;
 import com.cafe.manager.dto.UserDto;
 import com.cafe.manager.service.CommonTestResource;
+import com.cafe.manager.service.TableService;
+import com.cafe.manager.service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.util.Optional;
+import javax.persistence.EntityManager;
 
 public class UserControllerTest extends CommonTestResource {
 
     @Autowired
     private UserController userController;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private TableService tableService;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     public void getUser() {
@@ -61,9 +75,39 @@ public class UserControllerTest extends CommonTestResource {
     @Test
     public void assignTableToWaiter() {
 
-        userController.assignTableToWaiter(Optional.of(10L), Optional.of(20L));
 
+        final User armen = new User();
+        armen.setId(10L);
+        armen.setEmail("armenaslikyan@gmail.com");
+        armen.setFirstName("Armen");
+        armen.setLastName("Aslikyan");
+        armen.setPasswordHash(BCrypt.hashpw("armen", BCrypt.gensalt(12)));
+        armen.setRoleType(RoleType.WAITER);
 
-        Assert.assertEquals("Round table", userController.getUser("armenaslikyan@gmail.com"));
+        Long userId = userService.modify(armen).getId();
+
+        entityManager.flush();
+        entityManager.clear();
+
+        final Table roundTable = new Table();
+        roundTable.setId(20L);
+        roundTable.setName("Round table");
+        roundTable.setCapacity(10);
+
+        Long tableId = tableService.modify(roundTable).getId();
+
+        entityManager.flush();
+        entityManager.clear();
+
+        final User userBefore = userService.getById(userId);
+        Assert.assertNull(userBefore.getTable());
+        userController.assignTableToWaiter(userId, tableId);
+        entityManager.flush();
+        entityManager.clear();
+
+        final User userAfter = userService.getById(userId);
+        Assert.assertNotNull(userAfter.getTable());
+
+        Assert.assertEquals(tableId, userAfter.getTable().getId());
     }
 }
